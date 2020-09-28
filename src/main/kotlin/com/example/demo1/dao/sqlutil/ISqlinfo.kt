@@ -1,4 +1,4 @@
-package com.example.demo.dao.sqlutil
+package com.example.demo1.dao.sqlutil
 
 /**
  * sql 操作 抽象类
@@ -12,7 +12,7 @@ abstract class ISqlinfo {
     val user_table: String = "user"
 
     //用户信息表
-    val userinfo_table: String = "userinfo"
+    val userinfo_table: String = "user_info"
 
     val insert = "insert into "
     val update = "update "

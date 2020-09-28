@@ -4,19 +4,19 @@ import com.example.demo1.bean.entity.LoginEntity
 import com.example.demo1.bean.entity.ResultData
 import com.example.demo1.dao.DataDao
 import com.example.demo1.dao.LoginSqlUtil
-import com.example.demo1.returndataUtils.GetResultData
+import com.example.demo1.dao.impl.DataImpl
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import javax.annotation.Resource
 
 @Controller
-@RequestMapping(value = ["/main"])
+//@RequestMapping(value = ["/main"])
 class MainController {
 
     @Resource
-    lateinit var service:DataDao
+    lateinit var service: DataImpl
 
-    @PostMapping(value = ["/login"], consumes = ["application/json"])
+    @PostMapping(value = ["/main/login"], consumes = ["application/json"])
     @ResponseBody
     fun login(@RequestBody data: ResultData<LoginEntity>): String {
         // 封装 JDBC处理类

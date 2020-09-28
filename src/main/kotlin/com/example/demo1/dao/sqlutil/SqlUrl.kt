@@ -1,6 +1,5 @@
 package com.example.demo1.dao.sqlutil
 
-import com.example.demo.dao.sqlutil.ISqlinfo
 import com.example.demo1.bean.entity.LoginEntity
 
 /**

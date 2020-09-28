@@ -1,8 +1,8 @@
-package com.example.demo.dao.sqlutil
+package com.example.demo1.dao.sqlutil
 
 import org.springframework.jdbc.core.JdbcTemplate
 
-class FindData(val jdbc:JdbcTemplate):ISqlinfo() {
+class FindData(val jdbc:JdbcTemplate): ISqlinfo() {
 
     /**
      * 查找登录表中是否存在
