@@ -7,12 +7,16 @@ package com.example.demo1.dao.sqlutil
 abstract class ISqlinfo {
     //登录表
     val login_Table: String = "logininfo"
+    //登录表主键。自增
+    val login_SEQ:String ="seq_logininfo.nextval,"
 
     // 用户表
     val user_table: String = "user"
 
     //用户信息表
     val userinfo_table: String = "user_info"
+    //用户信息表主键。自增
+    val userInfo_SEQ:String ="seq_userinfo.nextval,"
 
     val insert = "insert into "
     val update = "update "
@@ -36,56 +40,87 @@ abstract class ISqlinfo {
     val selectUserCount = "$select count(*)  $from $user_table "
     val selectUserInfoCount = "$select count(*)  $from $userinfo_table "
 
+
     /**
      * 插入语句
      * key = value 形式
      */
 
-    fun update(table: String, map: MutableMap<String, Any>, map1: MutableMap<String, Any>): String {
+    fun update(table: String,id_SEQ: String, map: MutableMap<String, Any>, map1: MutableMap<String, Any>): String {
+
+        return  update(table,id_SEQ, map, map1,true)
+    }
+
+
+    /**
+     * 插入语句
+     * key = value 形式
+     * @param id_SEQ 自增主键ID
+     */
+
+    fun update(table: String,id_SEQ: String, map: MutableMap<String, Any>, map1: MutableMap<String, Any>,isMap1:Boolean): String {
         val sb = StringBuffer()
         val sb1 = StringBuffer()
+        var isID =0;
         var status:Int = 0
         var status1:Int = 0
-        map.mapKeys {
-            //判断是否为基本数据类型
-            val isInteger = isAny(it.value)
-            if (map.size > 1 && status!=map.size-1) {
-                if (isInteger) {
-                    sb.append("${it.key} = ${it.value},")
-                } else {
-                    sb.append("${it.key} = '${it.value}',")
-                }
-            } else {
-                if (isInteger) {
-                    sb.append("${it.key} = ${it.value} ")
-                } else {
-                    sb.append("${it.key} = '${it.value}' ")
-                }
-            }
-            status++
-        }
+
+            map.mapKeys {
+                //判断是否为基本数据类型
+                val isInteger = isAny(it.value!!)
+                if (map.size > 1 && status != map.size - 1) {
+                    if (it.key!="id"){
 
 
-        map1.mapKeys {
-            //判断是否为基本数据类型
-            val isInteger = isAny(it.value)
-            if (map1.size > 1 && status1!=map1.size-1) {
-                if (isInteger) {
-                    sb1.append("${it.key} = ${it.value}  and ")
-                }else{
-                    sb1.append("${it.key} = '${it.value}'  and ")
+                    if (isInteger) {
+
+                        sb.append("${it.key} = ${it.value},")
+                    } else {
+                        sb.append("${it.key} = '${it.value}',")
+                    }
+                    }
+                } else {
+                    if (it.key!="id") {
+                        if (isInteger) {
+                            sb.append("${it.key} = ${it.value} ")
+                        } else {
+                            sb.append("${it.key} = '${it.value}' ")
+                        }
+                    }
                 }
-            } else {
-                if (isInteger) {
-                    sb1.append("${it.key} = ${it.value}   ")
-                }else{
-                    sb1.append("${it.key} = '${it.value}'   ")
-                }
+                status++
             }
-            status1++
+
+        if (isMap1) {
+
+            map1.mapKeys {
+                //判断是否为基本数据类型
+                val isInteger = isAny(it.value)
+                if (map1.size > 1 && status1 != map1.size - 1) {
+                    if (isInteger) {
+                        sb1.append("${it.key} = ${it.value}  and ")
+                    } else {
+                        sb1.append("${it.key} = '${it.value}'  and ")
+                    }
+                } else {
+                    if (isInteger) {
+                        sb1.append("${it.key} = ${it.value}   ")
+                    } else {
+                        sb1.append("${it.key} = '${it.value}'   ")
+                    }
+                }
+                status1++
+            }
         }
-        return "update $table set $sb  where  $sb1"
+        var sql = ""
+        if (!isMap1){
+            return "update  $table set $sb "
+        }
+        sql = "update  $table set  $sb  where  $sb1"
+        printlnSqlLog(sql)
+        return  sql
     }
+
 
 
     /**
