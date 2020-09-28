@@ -1,9 +1,11 @@
-package com.example.demo.dao.sqlutil
+package com.example.demo1.dao.sqlutil
 
-import com.example.demo.bean.LoginEntity
+import com.example.demo.dao.sqlutil.FindData
+import com.example.demo.dao.sqlutil.ISqlinfo
+import com.example.demo1.bean.entity.LoginEntity
 import org.springframework.jdbc.core.JdbcTemplate
 
-class  UpdateSql(val jdbc:JdbcTemplate) :ISqlinfo() {
+class  UpdateSql(val jdbc:JdbcTemplate) : ISqlinfo() {
 
     /**
      * 登录logininfo表
